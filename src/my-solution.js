@@ -1,44 +1,37 @@
-"use strict";
-function ParseArgs() {
-    console.log(parseInt(process.argv
-        .filter(val => !isNaN(parseInt(val)))
-        .map((val) => num2bin(val))
-        .reduce((prev, val) => add(prev, val), [])
-        .join(''), 2));
-}
-function halfAdder(a, b) {
-    return { s: a ^ b, c: a & b };
-}
-exports.halfAdder = halfAdder;
-function fullAdder(a, b, c) {
-    let fir = halfAdder(a, b);
-    let sec = halfAdder(c, fir.s);
-    return { s: sec.s, c: sec.c | fir.c };
-}
-exports.fullAdder = fullAdder;
-function add(a, b) {
-    if (a.length !== b.length) {
-        if (a.length > b.length)
-            b = Array.apply(null, Array(a.length - b.length)).map(() => 0).concat(b);
-        else
-            a = Array.apply(null, Array(b.length - a.length)).map(() => 0).concat(a);
-    }
-    let tes = a.map((e, i) => [e, b[i]]).reverse();
-    let temp = [];
-    let result = [];
-    if (tes.length !== 0) {
-        temp.push(halfAdder.apply(this, tes[0]));
-        for (var index = 1; index < tes.length; index++) {
-            temp.push(fullAdder.apply(this, tes[index].concat(temp[index - 1].c)));
+var x = require("readline");
+z = x.createInterface(process.stdin, 0);
+z.on("line", function (line) {
+    (function pls(a) {
+        let arrLength = (arr) => arr.length;
+        let halfAdder = (firstBit, secondBit) => ({ s: firstBit ^ secondBit, c: firstBit & secondBit });
+        let fullAdder = (firstBit, secondBit, carryIn) => {
+            let firstPart = halfAdder(firstBit, secondBit);
+            let secondPart = halfAdder(carryIn, firstPart.s);
+            return { s: secondPart.s, c: secondPart.c | firstPart.c };
+        };
+        let rpa = function* (a) {
+            let p = { s: 0, c: 0 };
+            for (var e of a) {
+                p = fullAdder.apply(this, e.concat(p.c));
+                yield p;
+            }
+            p.s = p.c;
+            yield p;
+        };
+        function binarySum(a, b) {
+            let grow = (f, s) => Array.apply(0, Array(arrLength(f) - arrLength(s))).map(() => 0).concat(s);
+            if (arrLength(a) !== arrLength(b))
+                (arrLength(a) > arrLength(b)) ? b = grow(a, b) : a = grow(b, a);
+            let r = [];
+            for (let x of rpa(a.map((e, i) => [e, b[i]]).reverse()))
+                r.push(x.s);
+            return r.reverse();
         }
-    }
-    result = temp.map(val => val.s);
-    if (temp[temp.length - 1].c === 1)
-        result.push(1);
-    return result.reverse();
-}
-function num2bin(num) {
-    return (num >>> 0).toString(2).split('').map(x => parseInt(x));
-}
-ParseArgs();
+        console.log(parseInt(a
+            .filter(val => !isNaN(~~val))
+            .map((val) => (val >>> 0).toString(2).split('').map(x => ~~x))
+            .reduce((prev, val) => binarySum(prev, val), [])
+            .join(''), 2));
+    })(line.split(' '));
+});
 //# sourceMappingURL=my-solution.js.map
