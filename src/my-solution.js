@@ -3,12 +3,7 @@ z = x.createInterface(process.stdin, 0);
 z.on("line", function (line) {
     (function pls(a) {
         let arrLength = (arr) => arr.length;
-        let halfAdder = (firstBit, secondBit) => ({ s: firstBit ^ secondBit, c: firstBit & secondBit });
-        let fullAdder = (firstBit, secondBit, carryIn) => {
-            let firstPart = halfAdder(firstBit, secondBit);
-            let secondPart = halfAdder(carryIn, firstPart.s);
-            return { s: secondPart.s, c: secondPart.c | firstPart.c };
-        };
+        let fullAdder = (a, b, c) => ({ c: ((a ^ b) & c) | (a & b), s: ((a ^ b) ^ c) });
         let rpa = function* (a) {
             let p = { s: 0, c: 0 };
             for (var e of a) {

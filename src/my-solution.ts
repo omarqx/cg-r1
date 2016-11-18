@@ -13,7 +13,7 @@ z.on("line", function (line) {
     * @param {number} secondBit - An optional param 
     * @return {AdderResult} This is the result
     */
-    let halfAdder = (firstBit: number, secondBit: number): AdderResult => ({ s: firstBit ^ secondBit, c: firstBit & secondBit });
+    // let halfAdder = (firstBit: number, secondBit: number): AdderResult => ({ s: firstBit ^ secondBit, c: firstBit & secondBit });
     /**
     * fullAdder circut
    * @param {number} firstBit - A string param. 
@@ -21,12 +21,12 @@ z.on("line", function (line) {
    * @param {number} carryIn - An optional param  
    * @return {AdderResult} This is the result
    */
-    let fullAdder = (firstBit: number, secondBit: number, carryIn: number): AdderResult => {
-      let firstPart = halfAdder(firstBit, secondBit);
-      let secondPart = halfAdder(carryIn, firstPart.s);
-      return { s: secondPart.s, c: secondPart.c | firstPart.c };
-    };
-    
+    // let fullAdder = (firstBit: number, secondBit: number, carryIn: number): AdderResult => {
+    //   let firstPart = halfAdder(firstBit, secondBit);
+    //   let secondPart = halfAdder(carryIn, firstPart.s);
+    //   return { s: secondPart.s, c: secondPart.c | firstPart.c };
+    // };
+    let fullAdder=(a,b,c)=>({c:((a^b)&c)|(a&b), s:((a^b)^c)});
 
     let rpa = function* (a: number[][]): IterableIterator<AdderResult> {
       let p: AdderResult = { s: 0, c: 0 };
@@ -39,8 +39,6 @@ z.on("line", function (line) {
     }
     function binarySum(a: number[], b: number[]) {
       let grow = (f: any[], s: any[]) => Array.apply(0, Array(arrLength(f) - arrLength(s))).map(() => 0).concat(s);
-      
-      
       if (arrLength(a) !== arrLength(b))
         (arrLength(a) > arrLength(b)) ? b = grow(a, b) : a = grow(b, a);
       let r: number[] = [];
