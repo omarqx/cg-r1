@@ -1,10 +1,11 @@
 {
     "compilerOptions": {
+        "target": "es6",
         "module": "commonjs",
         "noImplicitAny": true,
         "removeComments": true,
         "preserveConstEnums": true,
         "sourceMap": true,
-        "typeRoots" : ["./node_module/@types"]
+        "types" : [ "node", "jasmine" ,"lodash"] 
     }
 }
