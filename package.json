@@ -1,0 +1,19 @@
+{
+  "name": "cg-r1",
+  "version": "1.0.0",
+  "description": "https://github.com/perfectsquircle/code-golf-round-1 solution",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/omarqx/cg-r1.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/omarqx/cg-r1/issues"
+  },
+  "homepage": "https://github.com/omarqx/cg-r1#readme"
+}
