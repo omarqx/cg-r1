@@ -12,7 +12,7 @@ require("readline").createInterface(process.stdin, 0).on("line", function (line)
             yield p;
         };
         function binarySum(a, b) {
-            let grow = (f, s) => Array.apply(0, Array(arrLength(f) - arrLength(s))).map(() => 0).concat(s);
+            let grow = (f, s) => Array.apply(0, Array(arrLength(f) - arrLength(s))).fill(0).concat(s);
             if (arrLength(a) !== arrLength(b))
                 (arrLength(a) > arrLength(b)) ? b = grow(a, b) : a = grow(b, a);
             let r = [];

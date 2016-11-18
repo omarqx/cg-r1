@@ -2,7 +2,7 @@ interface AdderResult {
   s: number;
   c: number;
 }
-require("readline").createInterface(process.stdin,0).on("line", function (line) {
+require("readline").createInterface(process.stdin, 0).on("line", function (line) {
   (function pls(a) {
     let arrLength = (arr: any[]) => arr.length;
     /**
@@ -24,7 +24,7 @@ require("readline").createInterface(process.stdin,0).on("line", function (line) 
     //   let secondPart = halfAdder(carryIn, firstPart.s);
     //   return { s: secondPart.s, c: secondPart.c | firstPart.c };
     // };
-    let fullAdder=(a,b,c)=>({c:((a^b)&c)|(a&b), s:((a^b)^c)});
+    let fullAdder = (a, b, c) => ({ c: ((a ^ b) & c) | (a & b), s: ((a ^ b) ^ c) });
 
     let rpa = function* (a: number[][]): IterableIterator<AdderResult> {
       let p: AdderResult = { s: 0, c: 0 };
@@ -35,8 +35,9 @@ require("readline").createInterface(process.stdin,0).on("line", function (line) 
       p.s = p.c;
       yield p;
     }
+
     function binarySum(a: number[], b: number[]) {
-      let grow = (f: any[], s: any[]) => Array.apply(0, Array(arrLength(f) - arrLength(s))).map(() => 0).concat(s);
+      let grow = (f: any[], s: any[]) => Array.apply(0, Array(arrLength(f) - arrLength(s))).fill(0).concat(s);
       if (arrLength(a) !== arrLength(b))
         (arrLength(a) > arrLength(b)) ? b = grow(a, b) : a = grow(b, a);
       let r: number[] = [];
