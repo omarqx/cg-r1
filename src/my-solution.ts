@@ -2,9 +2,7 @@ interface AdderResult {
   s: number;
   c: number;
 }
-var x=require("readline");
-z=x.createInterface(process.stdin,0);
-z.on("line", function (line) {
+require("readline").createInterface(process.stdin,0).on("line", function (line) {
   (function pls(a) {
     let arrLength = (arr: any[]) => arr.length;
     /**
