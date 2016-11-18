@@ -1,10 +1,13 @@
+ 
 interface AdderResult {
   s: number;
   c: number;
 }
 require("readline").createInterface(process.stdin, 0).on("line", function (line) {
+  //lib
+  let arrLength = (arr: any[]) => arr.length;
+
   (function pls(a) {
-    let arrLength = (arr: any[]) => arr.length;
     /**
      * halfAdder circut
     * @param {number} firstBit - A string param. 
@@ -24,27 +27,7 @@ require("readline").createInterface(process.stdin, 0).on("line", function (line)
     //   let secondPart = halfAdder(carryIn, firstPart.s);
     //   return { s: secondPart.s, c: secondPart.c | firstPart.c };
     // };
-    let fullAdder = (a, b, c) => ({ c: ((a ^ b) & c) | (a & b), s: ((a ^ b) ^ c) });
-
-    let rpa = function* (a: number[][]): IterableIterator<AdderResult> {
-      let p: AdderResult = { s: 0, c: 0 };
-      for (var e of a) {
-        p = fullAdder.apply(this, e.concat(p.c))
-        yield p;
-      }
-      p.s = p.c;
-      yield p;
-    }
-
-    function binarySum(a: number[], b: number[]) {
-      let grow = (f: any[], s: any[]) => Array.apply(0, Array(arrLength(f) - arrLength(s))).fill(0).concat(s);
-      if (arrLength(a) !== arrLength(b))
-        (arrLength(a) > arrLength(b)) ? b = grow(a, b) : a = grow(b, a);
-      let r: number[] = [];
-      for (let x of rpa(a.map((e, i) => [e, b[i]]).reverse()))
-        r.push(x.s);
-      return r.reverse();
-    }
+    
 
     // function add(a: number[], b: number[]) {
     //   if (a.length !== b.length)
@@ -64,9 +47,37 @@ require("readline").createInterface(process.stdin, 0).on("line", function (line)
     //     result.push(1);
     //   return result.reverse();
     // }
+
+    //v1
+    // console.log(parseInt(a
+    //   .filter(val => !isNaN(~~val))
+    //   .map((val) => (val >>> 0).toString(2).split('').map(x => ~~x))
+    //   .reduce((prev, val) => binarySum(prev, val), [])
+    //   .join('')
+    //   , 2));
+    let size = 0;
+
+    let rpa = function* (a: number[][]): IterableIterator<AdderResult> {
+      let p: AdderResult = { s: 0, c: 0 };
+      for (var e of a) {
+        p = ((a, b, c) => ({ c: ((a ^ b) & c) | (a & b), s: ((a ^ b) ^ c) })).apply(this, e.concat(p.c))
+        yield p;
+      }
+      p.s = p.c;
+      yield p;
+    }
+
+    function binarySum(a: number[], b: number[]) {
+      let grow = (f: any[], s: any[]) => Array.apply(0, Array(arrLength(f) - arrLength(s))).fill(0).concat(s);
+      if (arrLength(a) !== arrLength(b))
+        (arrLength(a) > arrLength(b)) ? b = grow(a, b) : a = grow(b, a);
+      let r: number[] = [];
+      for (let x of rpa(a.map((e, i) => [e, b[i]]).reverse()))
+        r.push(x.s);
+      return r.reverse();
+    }
     console.log(parseInt(a
-      .filter(val => !isNaN(~~val))
-      .map((val) => (val >>> 0).toString(2).split('').map(x => ~~x))
+      .map((val) => (~~val).toString(2).split('').map(x => ~~x))
       .reduce((prev, val) => binarySum(prev, val), [])
       .join('')
       , 2));

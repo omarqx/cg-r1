@@ -1,11 +1,11 @@
 require("readline").createInterface(process.stdin, 0).on("line", function (line) {
+    let arrLength = (arr) => arr.length;
     (function pls(a) {
-        let arrLength = (arr) => arr.length;
-        let fullAdder = (a, b, c) => ({ c: ((a ^ b) & c) | (a & b), s: ((a ^ b) ^ c) });
+        let size = 0;
         let rpa = function* (a) {
             let p = { s: 0, c: 0 };
             for (var e of a) {
-                p = fullAdder.apply(this, e.concat(p.c));
+                p = ((a, b, c) => ({ c: ((a ^ b) & c) | (a & b), s: ((a ^ b) ^ c) })).apply(this, e.concat(p.c));
                 yield p;
             }
             p.s = p.c;
@@ -21,8 +21,7 @@ require("readline").createInterface(process.stdin, 0).on("line", function (line)
             return r.reverse();
         }
         console.log(parseInt(a
-            .filter(val => !isNaN(~~val))
-            .map((val) => (val >>> 0).toString(2).split('').map(x => ~~x))
+            .map((val) => (~~val).toString(2).split('').map(x => ~~x))
             .reduce((prev, val) => binarySum(prev, val), [])
             .join(''), 2));
     })(line.split(' '));
