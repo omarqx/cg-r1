@@ -68,7 +68,7 @@ require("readline").createInterface(process.stdin, 0).on("line", function (line)
     }
 
     function binarySum(a: number[], b: number[]) {
-      let grow = (f: any[], s: any[]) => Array.apply(0, Array(arrLength(f) - arrLength(s))).fill(0).concat(s);
+      let grow = (f: any[], s: any[]) => [].apply(0, Array(arrLength(f) - arrLength(s))).fill(0).concat(s);
       if (arrLength(a) !== arrLength(b))
         (arrLength(a) > arrLength(b)) ? b = grow(a, b) : a = grow(b, a);
       let r: number[] = [];
