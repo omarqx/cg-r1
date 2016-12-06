@@ -1,1 +1,1 @@
-require("readline").createInterface(process.stdin,0).on("line",a=>(a=>{console.log(-a.reduce((a,b)=>a-b,0))})(a.split(" ")));
+process.stdin.setEncoding('').on('data',a=>console.log(-a.split(' ').reduce((c,b)=>c-b,0)))
